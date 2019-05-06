@@ -1,0 +1,38 @@
+version: '3'
+services:
+  api:
+    container_name: yelp-like
+    restart: always
+    build: .
+    environment:
+      - PORT=8000
+      - MONGO_HOST=localhost
+      - MONGO_USER=danh
+      - MONGO_PASSWORD=nguydanh
+      - MONGO_DB_NAME=yelp
+    ports:
+      - "8000:8000"
+    networks:
+      - mongo-net
+    volumes:
+      - ./db:/data/db
+    depends_on:
+      - mongo
+  mongo:
+    restart: always
+    container_name: mongo-server
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=nguydanh
+      - MONGO_INITDB_DATABASE=yelp
+    volumes:
+      - ./init-mongodb:/docker-entrypoint-initdb.d
+    networks:
+      - mongo-net
+
+networks:
+  mongo-net:
+    driver: bridge
