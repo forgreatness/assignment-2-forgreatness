@@ -14,8 +14,6 @@ services:
       - "8000:8000"
     networks:
       - mongo-net
-    volumes:
-      - ./db:/data/db
     depends_on:
       - mongo
   mongo:
@@ -30,9 +28,14 @@ services:
       - MONGO_INITDB_DATABASE=yelp
     volumes:
       - ./init-mongodb:/docker-entrypoint-initdb.d
+      - mongodb_data:/data/db
     networks:
       - mongo-net
 
 networks:
   mongo-net:
     driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
