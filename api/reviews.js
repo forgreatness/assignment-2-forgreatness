@@ -16,6 +16,8 @@ router.post('/', async function (req, res, next) {
     const review = validation.extractValidFields(req.body, ReviewSchema);
     const reviews = await getAllReviews();
 
+    console.log(reviews);
+
     /*
      * Make sure the user is not trying to review the same business twice.
      */
